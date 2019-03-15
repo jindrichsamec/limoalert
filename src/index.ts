@@ -2,6 +2,7 @@
 
 import * as Koa from 'koa'
 import * as render from 'koa-ejs'
+import * as assets from 'koa-static'
 import * as Router from 'koa-router'
 import * as logger from 'koa-logger'
 import * as bodyParser from 'koa-bodyparser'
@@ -26,13 +27,17 @@ render(app, {
   debug: false
 });
 
-router.post('/limo', (ctx: Koa.Context, next: Function) => {
-  console.log('Limo', limo)
+router.get('/', async (ctx: Koa.Context, next: Function) => {
+  const limo = ctx.request.query.limo
+  await ctx.render('success', {
+    limo
+  })
+  ctx.response.status = 200
+  await next()
 })
 
-
-
 app.use(logger())
+app.use(assets(path.join(__dirname, '..', 'assets')))
 app.use(bodyParser())
 app.use(router.routes())
 app.listen(LIMOALERT_SERVICE_PORT)
