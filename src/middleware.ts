@@ -3,7 +3,7 @@ import { fetchAccessToken, sendMessage, createSlackAuthUrl } from './slack'
 import { getEnvVariable } from '@brandembassy/be-javascript-utils';
 
 const OAUTH_CLIENT_ID = getEnvVariable('OAUTH_CLIENT_ID')
-const ACCESS_TOKEN_COOKIE_NAME = getEnvVariable('ACCESS_TOKEN_COOKIE_NAME', 'limoalertUserToken')
+const ACCESS_TOKEN_COOKIE_NAME = getEnvVariable('ACCESS_TOKEN_COOKIE_NAME', 'limoAlertAccessToken')
 
 export async function checkUserToken(ctx: Koa.Context, next: Function) {
   ctx.accessToken = ctx.cookies.get(ACCESS_TOKEN_COOKIE_NAME)
