@@ -1,6 +1,10 @@
-<h2><%=limo.name%></h2>
+<a href="<%= LIMOALERT_SERVICE_BASE_URL %>/limo/<%=limo.id%>">
+  <h2><%=limo.name%></h2>
+</a>
 <div>
-<img src="<%=limo.image%>" height="200" />
+  <a href="<%= LIMOALERT_SERVICE_BASE_URL %>/limo/<%=limo.id%>">
+    <img src="<%=limo.image%>" height="200" />
+  </a>
 </div>
 <div>
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<%= LIMOALERT_SERVICE_BASE_URL %>/limo/<%=limo.id%>" height="150" />
