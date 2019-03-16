@@ -8,17 +8,14 @@ import * as logger from 'koa-logger'
 import * as bodyParser from 'koa-bodyparser'
 import * as path from 'path'
 import { getEnvVariable } from '@brandembassy/be-javascript-utils'
+import { checkUserToken, sendMessageToSlack, renderSuccess } from './middleware';
 
-import fetch from 'node-fetch';
-
-const LIMOALERT_SERVICE_PORT = getEnvVariable('LIMOALERT_SERVICE_PORT', "3000")
+const LIMOALERT_SERVICE_PORT = getEnvVariable('LIMOALERT_SERVICE_PORT')
 
 const app = new Koa()
-
 const router = new Router({
   prefix: '/1.0'
 })
-
 render(app, {
   root: path.join(__dirname, 'views'),
   layout: false,
@@ -27,14 +24,12 @@ render(app, {
   debug: false
 });
 
-router.get('/', async (ctx: Koa.Context, next: Function) => {
-  const limo = ctx.request.query.limo
-  await ctx.render('success', {
-    limo
-  })
-  ctx.response.status = 200
-  await next()
-})
+router.get('/limo/:limo',
+  checkUserToken,
+  sendMessageToSlack,
+)
+
+router.get('/success/:limo', renderSuccess)
 
 app.use(logger())
 app.use(assets(path.join(__dirname, '..', 'assets')))
