@@ -9,6 +9,7 @@ export const fetchJsonWithLogger: (...args: Array<any>) => Promise<any> = create
 const OAUTH_CLIENT_ID = getEnvVariable('OAUTH_CLIENT_ID')
 const OAUTH_CLIENT_SECRET = getEnvVariable('OAUTH_CLIENT_SECRET')
 const SLACK_CHANNEL = getEnvVariable('SLACK_CHANNEL', 'limo-gang-test-')
+const SLACK_LIMOBOSS_MEMBER = getEnvVariable('SLACK_LIMOBOSS_MEMBER')
 
 export function createSlackAuthUrl(clientId: string, redirectUri: string): string {
   return `https://slack.com/oauth/authorize?client_id=${clientId}&scope=chat:write:user&redirect_uri=${redirectUri}`
@@ -18,8 +19,9 @@ export async function sendMessage(limo: string, token: string) {
   const url = 'https://slack.com/api/chat.postMessage'
   const body = {
     channel: SLACK_CHANNEL,
-    text: `@limo-boss Beru si :${limo}:`,
-    as_user: true
+    text: `Hey <@${SLACK_LIMOBOSS_MEMBER}> ! Beru si :${limo}:`,
+    as_user: true,
+    link_names: true
   }
   const payload = await fetchJsonWithLogger('Sending message to slack', url, 'POST', body, {
     Authorization: `Bearer ${token}`

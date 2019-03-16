@@ -34,7 +34,6 @@ export async function sendMessageToSlack(ctx: Koa.Context, next: Function) {
   console.log('Sending message to slack with token', ctx.accessToken)
   await sendMessage(limo, ctx.accessToken)
   ctx.redirect(`/1.0/success/${limo}`)
-  return
 
   await next()
 }
