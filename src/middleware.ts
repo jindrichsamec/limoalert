@@ -4,12 +4,13 @@ import { getEnvVariable } from '@brandembassy/be-javascript-utils';
 
 const OAUTH_CLIENT_ID = getEnvVariable('OAUTH_CLIENT_ID')
 const ACCESS_TOKEN_COOKIE_NAME = getEnvVariable('ACCESS_TOKEN_COOKIE_NAME')
+const AWS_API_GATEWAY_STAGE = getEnvVariable('AWS_API_GATEWAY_STAGE')
 
 export async function checkUserToken(ctx: Koa.Context, next: Function) {
   ctx.accessToken = ctx.cookies.get(ACCESS_TOKEN_COOKIE_NAME)
   let userCode = ctx.request.query.code
   console.log('Checking user token and code', ctx.accessToken, userCode)
-  const redirectUri = `${ctx.origin}${ctx.path}`
+  const redirectUri = `${ctx.origin}${AWS_API_GATEWAY_STAGE}${ctx.path}`
   if (userCode) {
     console.log('Request access in slack with code', userCode)
     ctx.accessToken = await fetchAccessToken(userCode, redirectUri)
@@ -33,7 +34,7 @@ export async function sendMessageToSlack(ctx: Koa.Context, next: Function) {
   }
   console.log('Sending message to slack with token', ctx.accessToken)
   await sendMessage(limo, ctx.accessToken)
-  ctx.redirect(`/1.0/success/${limo}`)
+  ctx.redirect(`${AWS_API_GATEWAY_STAGE}/success/${limo}`)
 
   await next()
 }

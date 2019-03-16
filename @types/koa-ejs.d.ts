@@ -1,3 +1,3 @@
-declare module 'koa-ejs';
+declare module 'koa-ejs'
 
-declare function render(): any;
+declare function render(): any
