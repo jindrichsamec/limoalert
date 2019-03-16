@@ -1,0 +1,27 @@
+[
+  {
+    "id": "mate",
+    "name": "Mate",
+    "image": "https://cdn.myshoptet.com/usr/www.limogang.com/user/shop/big/58_image.jpg?5b1a98c5"
+  },
+  {
+    "id": "cola",
+    "name": "Cola",
+    "image": "https://cdn.myshoptet.com/usr/www.limogang.com/user/shop/big/61_club-mate-cola-0-33-l.jpg?5be217fc"
+  },
+  {
+    "id": "granat",
+    "name": "Granát",
+    "image": "https://cdn.myshoptet.com/usr/www.limogang.com/user/shop/big/64_club-mate-granat.png?5b1a98c6"
+  },
+  {
+    "id": "yuzu",
+    "name": "Yuzu",
+    "image": "https://cdn.myshoptet.com/usr/www.limogang.com/user/shop/big/132_47378651-368628073906283-1037640308889747456-n.jpg?5c06f145"
+  },
+  {
+    "id": "winter",
+    "name": "Winter Edition",
+    "image": "https://cdn.myshoptet.com/usr/www.limogang.com/user/shop/big/99_club-mate-winter-0-33.jpg?5be1c867"
+  }
+]

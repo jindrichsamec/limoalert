@@ -1,10 +1,11 @@
 import * as Koa from 'koa'
 import { fetchAccessToken, sendMessage, createSlackAuthUrl } from './slack'
 import { getEnvVariable } from '@brandembassy/be-javascript-utils';
+import * as limoList from './data/limo.json'
 
 const OAUTH_CLIENT_ID = getEnvVariable('OAUTH_CLIENT_ID')
 const ACCESS_TOKEN_COOKIE_NAME = getEnvVariable('ACCESS_TOKEN_COOKIE_NAME')
-const AWS_API_GATEWAY_STAGE = getEnvVariable('AWS_API_GATEWAY_STAGE')
+const AWS_API_GATEWAY_STAGE = getEnvVariable('AWS_API_GATEWAY_STAGE', '')
 
 export async function checkUserToken(ctx: Koa.Context, next: Function) {
   ctx.accessToken = ctx.cookies.get(ACCESS_TOKEN_COOKIE_NAME)
@@ -43,6 +44,13 @@ export async function renderSuccess(ctx: Koa.Context, next: Function) {
   const { limo } = ctx.params
   await ctx.render('success', {
     limo
+  })
+  ctx.response.status = 200
+}
+
+export async function renderLimoList(ctx: Koa.Context, next: Function) {
+  await ctx.render('list', {
+    limoList
   })
   ctx.response.status = 200
 }

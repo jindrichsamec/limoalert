@@ -7,7 +7,7 @@ import * as Router from 'koa-router'
 import * as logger from 'koa-logger'
 import * as bodyParser from 'koa-bodyparser'
 import * as path from 'path'
-import { checkUserToken, sendMessageToSlack, renderSuccess } from './middleware';
+import { checkUserToken, sendMessageToSlack, renderSuccess, renderLimoList } from './middleware';
 
 const app = new Koa()
 const router = new Router()
@@ -18,6 +18,8 @@ render(app, {
   cache: false,
   debug: false
 });
+
+router.get('/', renderLimoList)
 
 router.get('/limo/:limo',
   checkUserToken,

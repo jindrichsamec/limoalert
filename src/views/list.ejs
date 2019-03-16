@@ -1,0 +1,47 @@
+<html>
+
+<head>
+  <title>Limoalert</title>
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+    body {
+      font-family: 'Amatic SC', cursive;
+      font-size: 40px;
+    }
+
+    .list {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .item {
+      min-width: 250px;
+      min-height: 400px;
+      width: 30%;
+      flex: 1 1 auto;
+      justify-content: center;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+  .item img {
+      max-width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="list">
+    <% for (var i = 0; i < limoList.length; i++) { %>
+      <div class="item">
+        <%- include('./limo.ejs', { limo: limoList[i] }) %>
+      </div>
+    <% } %>
+  </div>
+</body>
+
+</html>
