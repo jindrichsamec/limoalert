@@ -3,5 +3,5 @@
 <img src="<%=limo.image%>" height="200" />
 </div>
 <div>
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://localhost:3000/limo/<%=limo.id%>" height="150" />
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<%= LIMOALERT_SERVICE_BASE_URL %>/limo/<%=limo.id%>" height="150" />
 </div>

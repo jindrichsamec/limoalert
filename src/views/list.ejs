@@ -38,7 +38,7 @@
   <div class="list">
     <% for (var i = 0; i < limoList.length; i++) { %>
       <div class="item">
-        <%- include('./limo.ejs', { limo: limoList[i] }) %>
+        <%- include('./limo.ejs', { limo: limoList[i], SERVICE_URL: SERVICE_URL }) %>
       </div>
     <% } %>
   </div>
