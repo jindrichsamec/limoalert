@@ -8,7 +8,7 @@ export const fetchJsonWithLogger: (...args: Array<any>) => Promise<any> = create
 
 const OAUTH_CLIENT_ID = getEnvVariable('OAUTH_CLIENT_ID')
 const OAUTH_CLIENT_SECRET = getEnvVariable('OAUTH_CLIENT_SECRET')
-const SLACK_CHANNEL = getEnvVariable('SLACK_CHANNEL', 'limo-gang-test-')
+const SLACK_CHANNEL = getEnvVariable('SLACK_CHANNEL')
 const SLACK_LIMOBOSS_MEMBER = getEnvVariable('SLACK_LIMOBOSS_MEMBER')
 
 export function createSlackAuthUrl(clientId: string, redirectUri: string): string {
