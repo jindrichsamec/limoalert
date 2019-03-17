@@ -1,5 +1,5 @@
 import * as Koa from 'koa'
-import { fetchAccessToken, sendMessage, createSlackAuthUrl } from './slack'
+import { fetchAccessToken, sendMessage, createSlackAuthUrl, InvalidAuthError } from './slack'
 import { getEnvVariable } from '@brandembassy/be-javascript-utils';
 import * as limoList from './data/limo.json'
 
@@ -31,19 +31,29 @@ export async function checkUserToken(ctx: Koa.Context, next: Function) {
 export async function sendMessageToSlack(ctx: Koa.Context, next: Function) {
   const { limo } = ctx.params
   if (!ctx.accessToken) {
-    throw new Error('Unknown access token')
+    ctx.response.status = 401
+    return await next()
   }
   console.log('Sending message to slack with token', ctx.accessToken)
-  await sendMessage(limo, ctx.accessToken)
-  ctx.redirect(`${LIMOALERT_SERVICE_BASE_URL}/success/${limo}`)
 
+  try {
+    await sendMessage(limo, ctx.accessToken)
+    ctx.redirect(`${LIMOALERT_SERVICE_BASE_URL}/success/${limo}`)
+  } catch (err) {
+    if (err instanceof InvalidAuthError) {
+      ctx.cookies.set(ACCESS_TOKEN_COOKIE_NAME, '')
+      ctx.response.status = 401
+    } else {
+      ctx.response.status = 500
+    }
+  }
   await next()
 }
 
 export async function renderSuccess(ctx: Koa.Context, next: Function) {
   const { limo } = ctx.params
   await ctx.render('success', {
-    limo
+    limo: limoList.find(limoItem => limoItem.id === limo)
   })
   ctx.response.status = 200
 }
