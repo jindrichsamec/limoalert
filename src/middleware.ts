@@ -28,6 +28,14 @@ export async function checkUserToken(ctx: Koa.Context, next: Function) {
   await next()
 }
 
+export async function getTokenFromJson(ctx: Koa.Context, next: Function): Promise<void> {
+  const { body } = ctx.request
+  console.info('incomming body ', body)
+  const { accessToken } = body
+  ctx.accessToken = accessToken
+  await next()
+}
+
 export async function sendMessageToSlack(ctx: Koa.Context, next: Function) {
   const { limo } = ctx.params
   if (!ctx.accessToken) {
@@ -38,7 +46,11 @@ export async function sendMessageToSlack(ctx: Koa.Context, next: Function) {
 
   try {
     await sendMessage(limo, ctx.accessToken)
-    ctx.redirect(`${LIMOALERT_SERVICE_BASE_URL}/success/${limo}`)
+    if (ctx.request.method === 'POST') {
+      ctx.response.status = 200
+    } else {
+      ctx.redirect(`${LIMOALERT_SERVICE_BASE_URL}/success/${limo}`)
+    }
   } catch (err) {
     if (err instanceof InvalidAuthError) {
       ctx.cookies.set(ACCESS_TOKEN_COOKIE_NAME, '')

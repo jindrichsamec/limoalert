@@ -7,7 +7,12 @@ import * as Router from 'koa-router'
 import * as logger from 'koa-logger'
 import * as bodyParser from 'koa-bodyparser'
 import * as path from 'path'
-import { checkUserToken, sendMessageToSlack, renderSuccess, renderLimoList } from './middleware';
+import { checkUserToken,
+  sendMessageToSlack,
+  renderSuccess,
+  renderLimoList,
+  getTokenFromJson
+} from './middleware';
 
 const app = new Koa()
 const router = new Router()
@@ -24,8 +29,11 @@ router.get('/limo/:limo',
   checkUserToken,
   sendMessageToSlack,
 )
+router.post('/limo/:limo',
+  getTokenFromJson,
+  sendMessageToSlack
+)
 router.get('/success/:limo', renderSuccess)
-
 
 app.use(logger())
 app.use(assets(path.join(__dirname, '..', 'assets')))
