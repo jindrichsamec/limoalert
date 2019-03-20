@@ -16,7 +16,7 @@ export async function checkUserToken(ctx: Koa.Context, next: Function) {
     console.log('Request access in slack with code and redirectUri', userCode, redirectUri)
     ctx.accessToken = await fetchAccessToken(userCode, redirectUri)
     console.log('Obtained AccessToken', ctx.accessToken)
-    ctx.cookies.set(ACCESS_TOKEN_COOKIE_NAME, ctx.accessToken)
+
   }
   if (!ctx.accessToken) {
     const slackAuthUrl = createSlackAuthUrl(OAUTH_CLIENT_ID, redirectUri)
@@ -24,6 +24,12 @@ export async function checkUserToken(ctx: Koa.Context, next: Function) {
     ctx.redirect(slackAuthUrl)
     return
   }
+  const maxAge = 30 * 24 * 60 * 60 * 1000
+  ctx.cookies.set(ACCESS_TOKEN_COOKIE_NAME, ctx.accessToken, {
+    maxAge,
+    expires: new Date(Date.now() + maxAge),
+    path: '/'
+  })
 
   await next()
 }
